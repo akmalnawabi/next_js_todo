@@ -40,7 +40,7 @@ function EditTaskClient({ taskId }: EditTaskClientProps) {
                 setTodo(data);
                 setFormData({
                     title: data.title,
-                    date: data.date.split('T')[0], // Convert to date-only format
+                    date: data.date.split('T')[0],
                     category: data.category,
                     isCompleted: data.isCompleted
                 });
@@ -71,7 +71,7 @@ function EditTaskClient({ taskId }: EditTaskClientProps) {
             });
 
             if (response.ok) {
-                // Redirect to the task detail page
+                // Redirect to the task page
                 router.push(`/components/tasks/${taskId}`);
             } else {
                 console.error('Failed to update todo');
