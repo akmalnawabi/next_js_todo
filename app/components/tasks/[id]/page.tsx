@@ -12,18 +12,29 @@ interface Todo {
     isCompleted: boolean;
 }
 
-export default function TaskDetailPage({ params }: { params: { id: string } }) {
+export default function TaskDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
     const [todo, setTodo] = useState<Todo | null>(null);
     const [loading, setLoading] = useState(true);
+    const [id, setId] = useState<string>('');
 
     useEffect(() => {
-        fetchTodo();
-    }, [params.id]);
+        const getParams = async () => {
+            const resolvedParams = await params;
+            setId(resolvedParams.id);
+        };
+        getParams();
+    }, [params]);
+
+    useEffect(() => {
+        if (id) {
+            fetchTodo();
+        }
+    }, [id]);
 
     const fetchTodo = async () => {
         try {
-            const response = await fetch(`/api/todos/${params.id}`);
+            const response = await fetch(`/api/todos/${id}`);
             if (response.ok) {
                 const data = await response.json();
                 setTodo(data);
@@ -40,7 +51,7 @@ export default function TaskDetailPage({ params }: { params: { id: string } }) {
     const handleDelete = async () => {
         if (confirm('Are you sure you want to delete this task?')) {
             try {
-                const response = await fetch(`/api/todos/${params.id}`, {
+                const response = await fetch(`/api/todos/${id}`, {
                     method: 'DELETE',
                 });
 
@@ -114,7 +125,7 @@ export default function TaskDetailPage({ params }: { params: { id: string } }) {
 
                     <div className="flex space-x-3 pt-4">
                         <Link
-                            href={`/components/tasks/${params.id}/edit`}
+                            href={`/components/tasks/${id}/edit`}
                             className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 text-center"
                         >
                             Edit Task
