@@ -22,7 +22,7 @@ export default function Page() {
           <TodoList />
         </div>
       </div>
-      <div className="bg-gray-100">
+      <div className="bg-gray-100 hidden md:block">
         <CalendarDemo />
       </div>
     </div>
