@@ -13,10 +13,12 @@ export default function TasksPage() {
     isCompleted: false
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch('/api/todos', {
@@ -34,10 +36,13 @@ export default function TasksPage() {
         router.push('/');
         router.refresh();
       } else {
-        console.error('Failed to create task');
+        const errorData = await response.json();
+        console.error('Failed to create task:', errorData);
+        setError(errorData.error || errorData.details || 'Failed to create task');
       }
     } catch (error) {
       console.error('Error creating task:', error);
+      setError('Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -131,6 +136,12 @@ export default function TasksPage() {
             </label>
           </div>
 
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+              {error}
+            </div>
+          )}
+          
           <button
             type="submit"
             disabled={loading}
