@@ -18,11 +18,15 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    console.log('Received request body:', body)
     const { title, date, category, isCompleted } = body
 
+    console.log('Extracted values:', { title, date, category, isCompleted })
+
     if (!title || !date || !category) {
+      console.log('Validation failed:', { title: !!title, date: !!date, category: !!category })
       return NextResponse.json(
-        { error: 'Title, date, and category are required' },
+        { error: 'Title, date, and category are required', received: { title, date, category } },
         { status: 400 }
       )
     }

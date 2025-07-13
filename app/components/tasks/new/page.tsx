@@ -8,8 +8,8 @@ export default function TasksPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
-    date: '',
-    category: '',
+    date: new Date().toISOString().split('T')[0], // Set today's date as default
+    category: 'important', // Set a default category
     isCompleted: false
   });
   const [loading, setLoading] = useState(false);
@@ -20,16 +20,40 @@ export default function TasksPage() {
     setLoading(true);
     setError(null);
 
+    // Validate form data
+    if (!formData.title.trim()) {
+      setError('Task title is required');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.date) {
+      setError('Date is required');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.category) {
+      setError('Category is required');
+      setLoading(false);
+      return;
+    }
+
+    console.log('Form data before submission:', formData);
+
     try {
+      const requestBody = {
+        ...formData,
+        date: new Date(formData.date).toISOString(),
+      };
+      console.log('Sending request body:', requestBody);
+
       const response = await fetch('/api/todos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...formData,
-          date: new Date(formData.date).toISOString(),
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
@@ -141,7 +165,7 @@ export default function TasksPage() {
               {error}
             </div>
           )}
-          
+
           <button
             type="submit"
             disabled={loading}
