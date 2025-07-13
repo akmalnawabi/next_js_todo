@@ -3,15 +3,29 @@ import { prisma } from '@/app/lib/prisma'
 
 export async function GET() {
   try {
+    console.log('GET /api/todos - Attempting to fetch todos')
+    
+    // Test database connection first
+    await prisma.$connect()
+    console.log('Database connected successfully')
+    
     const todos = await prisma.todo.findMany({
       orderBy: {
         date: 'asc'
       }
     })
+    
+    console.log(`Successfully fetched ${todos.length} todos`)
     return NextResponse.json(todos)
   } catch (error) {
     console.error('Error fetching todos:', error)
-    return NextResponse.json({ error: 'Failed to fetch todos' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'Failed to fetch todos', 
+      details: error instanceof Error ? error.message : 'Unknown error',
+      stack: process.env.NODE_ENV === 'development' ? error instanceof Error ? error.stack : undefined : undefined
+    }, { status: 500 })
+  } finally {
+    await prisma.$disconnect()
   }
 }
 
