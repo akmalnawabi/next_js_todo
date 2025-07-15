@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+interface Todo {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  isCompleted: boolean;
+}
+
 // Simple in-memory storage (same as in route.ts)
-let todos = [];
+let todos: Todo[] = [];
 
 // GET single todo
 export async function GET(

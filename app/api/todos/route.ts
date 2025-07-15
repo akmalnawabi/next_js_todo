@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+interface Todo {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  isCompleted: boolean;
+}
+
 // Simple in-memory storage
-let todos = [];
+let todos: Todo[] = [];
 
 let nextId = 1;
 
