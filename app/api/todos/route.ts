@@ -6,29 +6,17 @@ let todos = [];
 let nextId = 1;
 
 export async function GET() {
-  try {
-    console.log('GET /api/todos - Returning todos')
-    return NextResponse.json(todos)
-  } catch (error) {
-    console.error('Error in GET /api/todos:', error)
-    return NextResponse.json({ 
-      error: 'Failed to fetch todos', 
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 })
-  }
+  return NextResponse.json(todos)
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    console.log('POST /api/todos - Received body:', body)
-    
     const { title, date, category, isCompleted } = body
 
     if (!title || !date || !category) {
-      console.log('Validation failed:', { title: !!title, date: !!date, category: !!category })
       return NextResponse.json(
-        { error: 'Title, date, and category are required', received: { title, date, category } },
+        { error: 'Title, date, and category are required' },
         { status: 400 }
       )
     }
@@ -44,14 +32,11 @@ export async function POST(request: NextRequest) {
     todos.push(newTodo);
     nextId++;
 
-    console.log('Todo created:', newTodo.id)
     return NextResponse.json(newTodo, { status: 201 })
     
   } catch (error) {
-    console.error('Error in POST /api/todos:', error)
     return NextResponse.json({ 
-      error: 'Failed to create todo', 
-      details: error instanceof Error ? error.message : 'Unknown error'
+      error: 'Failed to create todo'
     }, { status: 500 })
   }
 }
