@@ -1,22 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Simple in-memory storage (same as in route.ts)
-let todos = [
-  {
-    id: '1',
-    title: 'Welcome to Task Manager!',
-    date: new Date().toISOString(),
-    category: 'important',
-    isCompleted: false
-  },
-  {
-    id: '2',
-    title: 'Create your first task',
-    date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-    category: 'personal',
-    isCompleted: false
-  }
-];
+let todos = [];
 
 // GET single todo
 export async function GET(

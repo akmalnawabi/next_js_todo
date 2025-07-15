@@ -1,24 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 // Simple in-memory storage
-let todos = [
-  {
-    id: '1',
-    title: 'Welcome to Task Manager!',
-    date: new Date().toISOString(),
-    category: 'important',
-    isCompleted: false
-  },
-  {
-    id: '2',
-    title: 'Create your first task',
-    date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-    category: 'personal',
-    isCompleted: false
-  }
-];
+let todos = [];
 
-let nextId = 3;
+let nextId = 1;
 
 export async function GET() {
   try {
