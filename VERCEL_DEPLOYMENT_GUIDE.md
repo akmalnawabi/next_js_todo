@@ -22,15 +22,19 @@ Value: [Your PostgreSQL connection string]
 
 ### 2. Database Options
 
-#### Option A: Use Vercel Postgres (Recommended)
+#### Option A: Use Prisma Accelerate (Recommended for Vercel)
+1. Go to [Prisma Accelerate](https://cloud.prisma.io/)
+2. Create a new project and database
+3. Copy the connection string (starts with `prisma+postgres://`)
+4. Set it as your `DATABASE_URL` environment variable
 
+#### Option B: Use Vercel Postgres
 1. In Vercel dashboard, go to **Storage**
 2. Create a new **Postgres** database
 3. Copy the connection string provided
 4. Set it as your `DATABASE_URL` environment variable
 
-#### Option B: Use External Database
-
+#### Option C: Use External Database
 - Use services like Supabase, PlanetScale, or Railway
 - Get the connection string and set it as `DATABASE_URL`
 
