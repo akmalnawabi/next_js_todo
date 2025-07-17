@@ -3,6 +3,14 @@ import { prisma } from '@/app/lib/prisma'
 
 export async function GET() {
   try {
+    // Check if DATABASE_URL is available
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL is not set')
+      return NextResponse.json({ 
+        error: 'Database configuration missing'
+      }, { status: 500 })
+    }
+
     const todos = await prisma.todo.findMany({
       orderBy: { date: 'desc' }
     })
@@ -17,6 +25,14 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if DATABASE_URL is available
+    if (!process.env.DATABASE_URL) {
+      console.error('DATABASE_URL is not set')
+      return NextResponse.json({ 
+        error: 'Database configuration missing'
+      }, { status: 500 })
+    }
+
     const body = await request.json()
     const { title, date, category, isCompleted } = body
 
