@@ -1,20 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-interface Todo {
-  id: string;
-  title: string;
-  date: string;
-  category: string;
-  isCompleted: boolean;
-}
-
-// Simple in-memory storage
-let todos: Todo[] = [];
-
-let nextId = 1;
+import { prisma } from '@/app/lib/prisma'
 
 export async function GET() {
-  return NextResponse.json(todos)
+  try {
+    const todos = await prisma.todo.findMany({
+      orderBy: { date: 'desc' }
+    })
+    return NextResponse.json(todos)
+  } catch (error) {
+    console.error('Error fetching todos:', error)
+    return NextResponse.json({ 
+      error: 'Failed to fetch todos'
+    }, { status: 500 })
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -29,20 +27,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const newTodo = {
-      id: nextId.toString(),
-      title,
-      date: new Date(date).toISOString(),
-      category,
-      isCompleted: isCompleted || false
-    };
-
-    todos.push(newTodo);
-    nextId++;
+    const newTodo = await prisma.todo.create({
+      data: {
+        title,
+        date: new Date(date),
+        category,
+        isCompleted: isCompleted || false
+      }
+    })
 
     return NextResponse.json(newTodo, { status: 201 })
     
   } catch (error) {
+    console.error('Error creating todo:', error)
     return NextResponse.json({ 
       error: 'Failed to create todo'
     }, { status: 500 })
