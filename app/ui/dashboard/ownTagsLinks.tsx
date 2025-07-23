@@ -12,15 +12,14 @@ import { useCategoryCounts } from '@/app/hooks/useCategoryCounts';
 
 const links = [
     { name: 'GoPay', href: '/components/tasks', icon: HomeIcon },
-    { name: 'Kretya Studio', href: '/dashboard/customers', icon: UserGroupIcon },
-    { name: 'Content Dump', href: '/dashboard/customers', icon: StarIcon },
+    { name: 'Kytro Studio', href: '/components/tasks', icon: UserGroupIcon },
+    { name: 'Content Dump', href: '/components/tasks', icon: StarIcon },
 ];
 
 export default function OwnTagsLinks() {
     const pathname = usePathname();
     const { getCountForCategory, loading } = useCategoryCounts();
 
-    // Calculate total count for all tags
     const totalCount = links.reduce((sum, link) => {
         return sum + getCountForCategory(link.name);
     }, 0);
@@ -36,7 +35,6 @@ export default function OwnTagsLinks() {
                     </span>
                 </div>
             )}
-            
             {links.map((link) => {
                 const LinkIcon = link.icon;
                 const count = getCountForCategory(link.name);
