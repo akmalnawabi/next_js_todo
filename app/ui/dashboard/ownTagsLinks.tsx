@@ -51,7 +51,7 @@ export default function OwnTagsLinks() {
                         )}>
                         <div className="flex items-center gap-2">
                             <LinkIcon className="w-5 text-blue-400" />
-                            <p className="hidden md:block">{link.name}</p>
+                            <p className="md:block">{link.name}</p>
                         </div>
                         {!loading && count > 0 && (
                             <span className="bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
