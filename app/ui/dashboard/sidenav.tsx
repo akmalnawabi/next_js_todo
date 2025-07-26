@@ -9,7 +9,6 @@ export default function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2 bg-gray-100">
 
-      {/* Top Section: Task Manager + Search (only visible on md+ screens) */}
       <div className="hidden md:flex flex-col gap-2 mt-2">
         <Link
           className="flex items-center gap-2 font-semibold w-fit mb-0 sm:mb-6"
@@ -42,7 +41,6 @@ export default function SideNav() {
         </div>
       </div>
 
-      {/* Mobile: Show Task Manager title */}
       <div className="md:hidden mb-4">
         <Link
           className="flex items-center gap-2 font-semibold w-fit"
@@ -53,7 +51,7 @@ export default function SideNav() {
         </Link>
       </div>
 
-      {/* Navigation Section: Always shown on desktop, toggled on mobile */}
+      {/* Navigation Section */}
       <div className="flex-col space-y-2">
         <div>
           <p className="text-sm text-gray-500 font-semibold my-4 ml-1">Favorites</p>
