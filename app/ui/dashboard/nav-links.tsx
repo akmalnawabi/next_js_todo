@@ -13,8 +13,6 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useCategoryCounts } from '@/app/hooks/useCategoryCounts';
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: 'My Day', href: '/components/tasks/my-day', icon: Battery50Icon },
   {
@@ -50,7 +48,7 @@ export default function NavLinks() {
             )}>
             <div className="flex items-center gap-2">
               <LinkIcon className="w-5 text-blue-400" />
-              <p className="hidden md:block">{link.name}</p>
+              <p className="md:block">{link.name}</p>
             </div>
             {!loading && count > 0 && (
               <span className="bg-gray-200 text-gray-700 text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
